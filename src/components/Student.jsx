@@ -8,6 +8,9 @@ const Student = () => {
     return course.students.some((student) => student.name === "Bob Smith");
   });
   const handleMarkAsComplete = (courseId) => {
+    if (enrolledCourse.some(course => course.id === courseId && course.completed)) {
+      return;
+    }
     setEnrolledCourse(prevCourses => 
       prevCourses.map(course => 
         course.id === courseId ? { ...course, completed: true } : course
@@ -27,7 +30,7 @@ const Student = () => {
           <p>{course.schedule}</p>
           <ProgressBar completed={course.completed}  progress={Math.floor(Math.random() * 101)}/>
           <p>{course.location}</p>
-          <button onClick={()=>handleMarkAsComplete(course.id)}  style={{background:'green'}}>Mark as complete</button>
+          <button onClick={()=>handleMarkAsComplete(course.id)}  style={{background:'green'}}>{course.completed?'Completed':'Mark as complete'}</button>
         </div>
       );
     })}</div>
