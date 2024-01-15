@@ -3,10 +3,18 @@ import { api } from "./api.js";
 import ProgressBar from "./Progress.jsx";
 
 const Student = () => {
-  const [enrolledCourse] = useState(api);
+  const [enrolledCourse,setEnrolledCourse] = useState(api.map(course => ({ ...course, completed: false })));
   enrolledCourse.filter((course) => {
     return course.students.some((student) => student.name === "Bob Smith");
   });
+  const handleMarkAsComplete = (courseId) => {
+    setEnrolledCourse(prevCourses => 
+      prevCourses.map(course => 
+        course.id === courseId ? { ...course, completed: true } : course
+      )
+    );
+  };
+
   return <div >
     <h1>Student Dashboard of Bob</h1>
     <h2>Enrolled Courses</h2>
@@ -17,9 +25,9 @@ const Student = () => {
           <h3>{course.name}</h3>
           <p>{course.instructor}</p>
           <p>{course.schedule}</p>
-          <ProgressBar  progress={Math.floor(Math.random() * 101)}/>
+          <ProgressBar completed={course.completed}  progress={Math.floor(Math.random() * 101)}/>
           <p>{course.location}</p>
-          <button  style={{background:'green'}}>Mark as complete</button>
+          <button onClick={()=>handleMarkAsComplete(course.id)}  style={{background:'green'}}>Mark as complete</button>
         </div>
       );
     })}</div>

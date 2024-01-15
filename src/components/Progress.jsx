@@ -1,5 +1,6 @@
 
-const ProgressBar = ({ progress }) => {
+const ProgressBar = ({ completed, progress }) => {
+    if(completed)progress=100;
   const getColor = (progress) => {
     if (progress <= 30) {
       return "red";
